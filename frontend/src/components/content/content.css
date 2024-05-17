@@ -1,0 +1,24 @@
+.site-layout-content {
+  background-color: #f5ebe0;
+  border-radius: 10px;
+  padding: 24px;
+  margin: 20px auto;
+  max-width: 1400px; /* Adjust max-width as needed */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+}
+
+/* Define media queries for responsiveness */
+@media screen and (max-width: 992px) {
+  .site-layout-content {
+    padding: 16px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .site-layout-content {
+    padding: 8px;
+  }
+}
+
+/* Additional media queries can be defined as needed */
