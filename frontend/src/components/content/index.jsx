@@ -25,6 +25,21 @@ function Content() {
       });
   }, []);
 
+  const handleSearch = (query) => {
+    setLoading(true);
+    axios
+      .get("http://localhost:5000/books/search?query=${query}")
+      .then((response) => {
+        setBooks(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError("Error searching books");
+        setLoading(false);
+        console.error(error);
+      });
+  };
+
   return (
     <AntContent style={{ padding: "0 50px" }}>
       <div className="site-layout-content">
@@ -46,5 +61,25 @@ function Content() {
     </AntContent>
   );
 }
+
+const SearchBar = ({ handleSearch }) => {
+  const [query, setQuery] = useState("");
+
+  const onSearch = () => {
+    handleSearch(query);
+  };
+
+  return (
+    <div style={{ marginBottom: "20px" }}>
+      <input
+        type="text"
+        placeholder="Search books"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <button onClick={onSearch}>Search</button>
+    </div>
+  );
+};
 
 export default Content;
