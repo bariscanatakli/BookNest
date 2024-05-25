@@ -1,16 +1,46 @@
-// frontend/src/App.jsx
-import Navbar from "./components/navbar";
-import Footer from "./components/footer";
-import Content from "./components/content";
+// App.jsx
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import HomePage from "./components/Homepage";
 
-const App = () => {
+function App() {
   return (
-    <>
-      <Navbar />
-      <Content />
-      <Footer />
-    </>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <HomePage />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <>
+              <Navbar />
+              <HomePage />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <>
+              <Navbar />
+              <h1>404 Not Found</h1>
+              <Footer />
+            </>
+          }
+        />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import mongoose from 'mongoose';
 const router = Router();
 import Book from '../models/Book.js';
+import { getSimilarityScores } from '../utils/similarity.js';
 
 // Get all books
 router.get('/', async (req, res) => {
@@ -27,7 +28,7 @@ router.get('/search', async (req, res) => {
         { series: regex },
         // Add other fields you want to search here
       ]
-    }).limit(20); // Limiting to 50 results for now
+    }).limit(20); // Limiting to 20 results for now
     res.json(books);
   } catch (err) {
     console.error(err);
@@ -36,9 +37,9 @@ router.get('/search', async (req, res) => {
 });
 
 // Get a book by ID
-router.get('/:id', async (req, res) => {
+router.get('/:bookId', async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findOne({ bookId: req.params.bookId });
     if (!book) {
       return res.status(404).json({ message: 'Book not found' });
     }
@@ -93,5 +94,31 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'Error deleting book' });
   }
 });
+
+
+router.get('/recommendations/:bookId', async (req, res) => {
+  const { bookId } = req.params;
+  const book = await Book.findOne({ bookId });
+  const similarityScore = req.body.similarityScore || 0.5; // Set the similarity threshold here
+  if (!book) {
+    return res.status(404).send('Book not found');
+  }
+
+  // Fetch only necessary fields and filter books by rating
+  const allBooks = await Book.find(
+    { rating: { $gte: book.rating } },
+    'bookId genres description author rating' // Only select necessary fields
+  );
+
+  const recommendations = await getSimilarityScores(book, allBooks, similarityScore);
+  const recommendedBookIds = recommendations.map(rec => rec.book._id);
+  const getBooksByIds = async (ids) => {
+    const books = await Book.find({ _id: { $in: ids } });
+    return books.map(book => book.toObject());
+  }
+  const recommendedBooks = await getBooksByIds(recommendedBookIds);
+  res.json(recommendedBooks);
+});
+
 
 export default router;

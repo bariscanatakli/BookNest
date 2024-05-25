@@ -1,38 +1,34 @@
-import React from 'react'
-import { Form, Input, Button } from 'antd'
+import React, { useState } from 'react'
+import { Form, Input, Button, notification } from 'antd'
 import axios from 'axios'
+const Signin = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [token, setToken] = useState(null)
 
-function Signin() {
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [token, setToken] = React.useState(null)
-
-  const handleSubmit = (e) => {
-    
+  const handleSubmit = (values) => {
     axios.post('http://localhost:5000/users/login', {
-      email,
-      password
+      email: values.email,
+      password: values.password
     })
     .then(response => {
       setToken(response.data.token)
-      alert('Login successful')
+      localStorage.setItem('token', response.data.token)
+      notification.success({
+        message: 'Login successful',
+        description: 'You have successfully logged in.',
+      })
     })
     .catch(error => {
-      alert('Login failed')
+      notification.error({
+        message: 'Login failed',
+        description: error.message,
+      })
     })
-  }
-
-  if (token) {
-    return (
-      <div>
-        <h1>Login successful</h1>
-        <p>Token: {token}</p>
-      </div>
-    )
   }
 
   return (
-    <Form onFinish={handleSubmit} className="signin-form">
+    <Form className="signin-form" onFinish={handleSubmit}>
       <Form.Item
         label="Email"
         name="email"
@@ -40,7 +36,7 @@ function Signin() {
       >
         <Input
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={e => setEmail(e.target.value)}
           placeholder="Email"
         />
       </Form.Item>
@@ -51,7 +47,7 @@ function Signin() {
       >
         <Input.Password
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           placeholder="Password"
         />
       </Form.Item>
