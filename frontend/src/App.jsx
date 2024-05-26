@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./components/Homepage";
+import Content from "./components/Profile";
 
 function App() {
   return (
@@ -24,6 +25,16 @@ function App() {
             <>
               <Navbar />
               <HomePage />
+              <Footer />
+            </>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <>
+              <Navbar />
+              <Content />
               <Footer />
             </>
           }

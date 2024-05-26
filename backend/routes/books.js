@@ -7,7 +7,7 @@ import { getSimilarityScores } from '../utils/similarity.js';
 // Get all books
 router.get('/', async (req, res) => {
   try {
-    const books = await Book.find().limit(50); // Find first 50 books
+    const books = await Book.find().limit(500); // Find first 50 books
     res.json(books);
   } catch (err) {
     console.error(err);
@@ -28,7 +28,7 @@ router.get('/search', async (req, res) => {
         { series: regex },
         // Add other fields you want to search here
       ]
-    }).limit(20); // Limiting to 20 results for now
+    }).limit(); // Limiting to 20 results for now
     res.json(books);
   } catch (err) {
     console.error(err);

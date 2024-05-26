@@ -35,7 +35,18 @@ const RightMenu = (props) => {
       </Menu>
 
       <Modal
-        title="Signin"
+        bodyStyle={{
+          backgroundColor: "#f5ebe0",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+          textAlign: "center",
+          fontWeight: "bold",
+          color: "black",
+        }}
+        footer={null}
         visible={signinVisible}
         onOk={() => handleCancel("signin")}
         onCancel={() => handleCancel("signin")}
@@ -44,7 +55,18 @@ const RightMenu = (props) => {
       </Modal>
 
       <Modal
-        title="Signup"
+        bodyStyle={{
+          backgroundColor: "#f5ebe0",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+          border: "1px solid #ccc",
+          fontSize: "16px",
+          textAlign: "center",
+          fontWeight: "bold",
+          color: "black",
+        }}
+        footer={null}
         visible={signupVisible}
         onOk={() => handleCancel("signup")}
         onCancel={() => handleCancel("signup")}
@@ -56,4 +78,3 @@ const RightMenu = (props) => {
 };
 
 export default RightMenu;
-

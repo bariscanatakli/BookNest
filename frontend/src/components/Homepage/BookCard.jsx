@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { Card, Button, Modal, notification } from "antd";
 import { useState } from "react";
 import BookInfo from "./modals/BookInfo.jsx";
-import axios from "axios";
+import { fetchRecommendedBooks } from "../../redux/actions.js";
+import { useDispatch } from "react-redux";
 const { Meta } = Card;
 
 const successNotification = (placement, description) => {
@@ -22,6 +23,7 @@ const errorNotification = (placement, description) => {
 };
 
 const BookCard = ({ book, setBooks, setLoading, setError }) => {
+  const dispatch = useDispatch();
   const { author, coverImg, title } = book;
   const [isModalVisibleBookInfo, setIsModalVisibleBookInfo] = useState(false);
   const showModalBookInfo = () => {
@@ -32,19 +34,8 @@ const BookCard = ({ book, setBooks, setLoading, setError }) => {
     setIsModalVisibleBookInfo(false);
   };
   const fetchRecommendations = () => {
-    axios
-      .get(`http://localhost:5000/books/recommendations/${book.bookId}`)
-      .then((response) => {
-        setBooks(response.data);
-        setLoading(false);
-        successNotification("bottomLeft", "Recommended books of: " + title);
-      })
-      .catch((error) => {
-        setError("Error fetching recommendations");
-        setLoading(false);
-        errorNotification("bottomLeft", "Error fetching recommendations");
-        console.error(error);
-      });
+    dispatch(fetchRecommendedBooks(book.bookId));
+    
   };
   return (
     <Card
