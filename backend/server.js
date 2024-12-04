@@ -24,6 +24,10 @@ app.use(cors());
 app.use('/users', userRoutes);
 app.use('/books', bookRoutes);
 
+// import loadCache method for caching the books can be recommend
+import { loadSimilarityCache } from './utils/cache.js';
+await loadSimilarityCache();
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Menu, Modal } from "antd";
 import Signin from "../Auth/Signin.jsx";
 import Signup from "../Auth/Signup.jsx";
-
+import { logout } from "../../redux/actions.js";
+import { useDispatch, useSelector } from "react-redux";
 const RightMenu = (props) => {
   const [signinVisible, setSigninVisible] = useState(false);
   const [signupVisible, setSignupVisible] = useState(false);
-
+  const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
   const showModal = (type) => {
     if (type === "signin") {
       setSigninVisible(true);
@@ -26,12 +28,27 @@ const RightMenu = (props) => {
   return (
     <>
       <Menu mode={props.mode}>
-        <Menu.Item key="mail">
-          <a onClick={() => showModal("signin")}>Signin</a>
-        </Menu.Item>
-        <Menu.Item key="app">
-          <a onClick={() => showModal("signup")}>Signup</a>
-        </Menu.Item>
+        {!token && (
+          <>
+            <Menu.Item key="mail">
+              <a onClick={() => showModal("signin")}>Signin</a>
+            </Menu.Item>
+            <Menu.Item key="app">
+              <a onClick={() => showModal("signup")}>Signup</a>
+            </Menu.Item>
+          </>
+        )}
+
+        {token && (
+          <Menu.Item
+            key="logout"
+            onClick={() => {
+              dispatch(logout());
+            }}
+          >
+            <a href="/">Logout</a>
+          </Menu.Item>
+        )}
       </Menu>
 
       <Modal

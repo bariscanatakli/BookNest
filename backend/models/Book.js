@@ -2,7 +2,6 @@
 import { Schema, model } from 'mongoose';
 
 const bookSchema = new Schema({
-  _id: Schema.Types.ObjectId, // MongoDB ObjectId for unique identifier
   bookId: Number,
   title: String,
   series: String,
@@ -11,23 +10,23 @@ const bookSchema = new Schema({
   description: String,
   language: String,
   isbn: String,
-  genres: [String], // Array of strings
-  characters: [String], // Array of strings
+  genres: [String],
+  characters: [String],
   bookFormat: String,
   edition: String,
   pages: Number,
   publisher: String,
   publishDate: Date,
-  awards: [String], // Array of strings
+  awards: [String],
   numRatings: Number,
-  ratingsByStars: [String], // Array of strings
+  ratingsByStars: [String],
   likedPercent: Number,
-  setting: [String], // Array of strings
+  setting: [String],
   coverImg: String,
   bbeScore: Number,
   bbeVotes: Number,
   price: Number
-});
+}, { collection: 'books' }); // Ensure the collection name is 'books'
 
 const Book = model('Book', bookSchema);
 

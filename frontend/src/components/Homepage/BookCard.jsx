@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { Card, Button, Modal, notification } from "antd";
 import { useState } from "react";
 import BookInfo from "./modals/BookInfo.jsx";
-import { fetchRecommendedBooks } from "../../redux/actions.js";
-import { useDispatch } from "react-redux";
+import { fetchBooks, fetchRecommendedBooks } from "../../redux/actions.js";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 const { Meta } = Card;
 
 const successNotification = (placement, description) => {
@@ -25,6 +26,7 @@ const errorNotification = (placement, description) => {
 const BookCard = ({ book, setBooks, setLoading, setError }) => {
   const dispatch = useDispatch();
   const { author, coverImg, title } = book;
+  const { books, recommendations, filteredBooks, filteredRecommendations } = useSelector((state) => state.books);
   const [isModalVisibleBookInfo, setIsModalVisibleBookInfo] = useState(false);
   const showModalBookInfo = () => {
     setIsModalVisibleBookInfo(true);
@@ -35,7 +37,22 @@ const BookCard = ({ book, setBooks, setLoading, setError }) => {
   };
   const fetchRecommendations = () => {
     dispatch(fetchRecommendedBooks(book.bookId));
-    
+  };
+
+  const handleDeleteBook = async () => {
+   
+    notification.info({
+      message: `Deleting book ${book._id}`,
+      description: "Please wait while we delete your book",
+      placement: "bottomLeft",
+    })
+    await axios.delete(`http://localhost:5000/books/${book._id}`);
+    notification.success({
+      message: `Book ${book._id} deleted successfully`,
+      description: "Book deleted successfully",
+      placement: "bottomLeft",
+    })
+    dispatch(fetchBooks())
   };
   return (
     <Card
@@ -59,6 +76,25 @@ const BookCard = ({ book, setBooks, setLoading, setError }) => {
         description={`Author: ${author}`}
         style={{ marginBottom: "10px" }}
       />
+      <Button
+        style={{
+          width: "100%",
+          borderRadius: "4px",
+          marginTop: "10px",
+          backgroundColor: "#d5bdaf",
+          color: "black",
+          fontWeight: "bold",
+          fontSize: "16px",
+          marginBottom: "10px",
+          border: "none",
+          height: "40px",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+        }}
+        block
+        onClick={handleDeleteBook}
+      >
+        Delete
+      </Button>
       <Button
         style={{
           width: "100%",

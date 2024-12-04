@@ -12,6 +12,8 @@ function Signup() {
       notification.info({
         message: "Passwords do not match",
         description: "Please enter the same password in both fields.",
+        placement: "bottomLeft",
+
       });
     } else {
       axios
@@ -21,18 +23,20 @@ function Signup() {
         })
         .then((response) => {
           console.log(response.data);
-          alert("Signed up successfully");
           notification.success({
             message: "Signup successful",
             description: "You have successfully signed up.",
+          placement: "bottomLeft",
+
           });
         })
         .catch((error) => {
           console.log(error);
-          alert("Signup failed");
           notification.error({
             message: "Signup failed",
             description: error.message,
+          placement: "bottomLeft",
+
           });
         });
     }

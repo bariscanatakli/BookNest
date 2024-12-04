@@ -1,9 +1,17 @@
 // frontend/src/components/BookModal.jsx
 import PropTypes from "prop-types";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 
 const BookInfo = ({ isVisible, onCancel, book }) => {
-  const { author, coverImg, title, publishDate, publisher, pages, description } = book;
+  const {
+    author,
+    coverImg,
+    title,
+    publishDate,
+    publisher,
+    pages,
+    description,
+  } = book;
 
   return (
     <Modal
@@ -38,15 +46,29 @@ const BookInfo = ({ isVisible, onCancel, book }) => {
             marginRight: "20px",
           }}
         />
+        
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <p style={{ fontSize: "18px", margin: "10px 0" }}>{`Title: ${title}`}</p>
-          <p style={{ fontSize: "18px", margin: "10px 0" }}>{`Author: ${author}`}</p>
-          <p style={{ fontSize: "18px", margin: "10px 0" }}>{`Year: ${new Date(publishDate).getFullYear()}`}</p>
-          <p style={{ fontSize: "18px", margin: "10px 0" }}>{`Publisher: ${publisher}`}</p>
-          <p style={{ fontSize: "18px", margin: "10px 0" }}>{`Pages: ${pages}`}</p>
+          <p
+            style={{ fontSize: "18px", margin: "10px 0" }}
+          >{`Title: ${title}`}</p>
+          <p
+            style={{ fontSize: "18px", margin: "10px 0" }}
+          >{`Author: ${author}`}</p>
+          <p style={{ fontSize: "18px", margin: "10px 0" }}>{`Year: ${new Date(
+            publishDate
+          ).getFullYear()}`}</p>
+          <p
+            style={{ fontSize: "18px", margin: "10px 0" }}
+          >{`Publisher: ${publisher}`}</p>
+          <p
+            style={{ fontSize: "18px", margin: "10px 0" }}
+          >{`Pages: ${pages}`}</p>
         </div>
       </div>
-      <p style={{ fontSize: "16px", lineHeight: "1.5", textAlign: "justify" }}>{`Description: ${description}`}</p>
+      <p
+        style={{ fontSize: "16px", lineHeight: "1.5", textAlign: "justify" }}
+      >{`Description: ${description}`}</p>
+    
     </Modal>
   );
 };

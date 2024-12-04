@@ -98,9 +98,9 @@ const ProfilePage = () => {
                   size={100}
                   shape="circle"
                   alt="User Avatar"
-                  src={`https://xsgames.co/randomusers/assets/avatars/pixel/${Math.floor(
-                    Math.random() * 50 
-                  ) + 1}.jpg`}
+                  src={`https://xsgames.co/randomusers/assets/avatars/pixel/${
+                    Math.floor(Math.random() * 50) + 1
+                  }.jpg`}
                 />
               </Row>
               <Descriptions
@@ -142,12 +142,11 @@ const ProfilePage = () => {
                     padding: "20px",
                   }}
                   label="Name"
-                  
                 >
                   John Doe
                 </Descriptions.Item>
                 <Descriptions.Item
-                 style={{
+                  style={{
                     color: "black",
                     fontWeight: "bold",
                     fontSize: "16px",
@@ -165,7 +164,7 @@ const ProfilePage = () => {
                   johndoe
                 </Descriptions.Item>
                 <Descriptions.Item
-                 style={{
+                  style={{
                     color: "black",
                     fontWeight: "bold",
                     fontSize: "16px",
@@ -222,6 +221,21 @@ const ProfilePage = () => {
             </Card>
           </Col>
         </Row>
+        <h1
+          style={{
+            textAlign: "center",
+            fontWeight: "bold",
+            marginTop: "20px",
+            color: "black",
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
+            fontFamily: "Arial, sans-serif",
+            letterSpacing: "2px",
+            textTransform: "uppercase",
+            fontSize: "48px",
+          }}
+        >
+          Under Production
+        </h1>
       </Content>
     </Layout>
   );

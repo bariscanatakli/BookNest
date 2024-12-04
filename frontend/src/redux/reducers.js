@@ -1,4 +1,5 @@
 // frontend/src/redux/reducers.js
+import { notification } from 'antd';
 import {
   LOGIN_SUCCESS,
   LOGOUT,
@@ -49,11 +50,11 @@ const booksReducer = (state = initialBooksState, action) => {
     case FETCH_BOOKS_FAILURE:
       return { ...state, error: action.payload };
     case SEARCH_BOOKS:
-      return { ...state, books: action.payload, error: null };
+      return { ...state, books: action.payload, error: null, recommendations: [], recommendatedBookId: null, filteredBooks: [], filteredRecommendations: [] };
     case 'FILTER_BOOKS':
       return {
         ...state,
-        filteredRecommendations: state.recommendatedBookId ? state.recommendations.filter(book => {
+        filteredRecommendations: state.recommendatedBookId ? state.recommendations?.filter(book => {
           const { rating, awardCount, formatType, genres, seriesCount } = action.filters;
           const meetsRatingCriteria = rating !== undefined ? book.rating >= rating : true;
           const meetsAwardCountCriteria = awardCount !== undefined ? (book.awards ? book.awards.length >= awardCount : false) : true;
@@ -68,20 +69,23 @@ const booksReducer = (state = initialBooksState, action) => {
             meetsSeriesCountCriteria;
 
         }) : [],
-        filteredBooks: state.books.filter(book => {
+        filteredBooks: state.books?.filter(book => {
           const { rating, awardCount, formatType, genres, seriesCount } = action.filters;
-          const meetsRatingCriteria = rating !== undefined ? book.rating >= rating : true;
-          const meetsAwardCountCriteria = awardCount !== undefined ? (book.awards ? book.awards.length >= awardCount : false) : true;
-          const meetsFormatTypeCriteria = formatType !== undefined ? book.bookFormat === formatType : true;
-          const meetsGenresCriteria = genres.length > 0 ? genres.some(genre => book.genres.includes(genre)) : true;
-          const meetsSeriesCountCriteria = seriesCount !== undefined ? (book.series ? book.series.split(',').length >= seriesCount : false) : true;
+          const meetsRatingCriteria = rating !== undefined ? book?.rating >= rating : true;
+          const meetsAwardCountCriteria = awardCount !== undefined ? (book?.awards ? book.awards.length >= awardCount : false) : true;
+          const meetsFormatTypeCriteria = formatType !== undefined ? book?.bookFormat === formatType : true;
+          const meetsGenresCriteria = genres.length > 0 ? genres.some(genre => book?.genres.includes(genre)) : true;
+          const meetsSeriesCountCriteria = seriesCount !== undefined ? (book.series ? book?.series.split(',').length >= seriesCount : false) : true;
 
           return meetsRatingCriteria &&
             meetsAwardCountCriteria &&
             meetsFormatTypeCriteria &&
             meetsGenresCriteria &&
             meetsSeriesCountCriteria;
-        })
+        },
+        notification.success({ message: 'Filters applied', placement: 'bottomLeft' }),
+        
+        )
       };
     case FETCH_RECOMMENDED_BOOKS_SUCCESS:
       return { ...state, recommendations: action.payload.books, recommendatedBookId: action.payload.bookId, error: null };

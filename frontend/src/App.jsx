@@ -4,8 +4,11 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import HomePage from "./components/Homepage";
 import Content from "./components/Profile";
+import BookCrud from "./components/BookCrud";
+import { useSelector } from "react-redux";
 
-function App() {
+function App(token) {
+  console.log(token);
   return (
     <Router>
       <Routes>
@@ -29,16 +32,28 @@ function App() {
             </>
           }
         />
+
         <Route
           path="/profile"
           element={
             <>
               <Navbar />
-              <Content />
+              {token ? <Content /> : <HomePage />}
               <Footer />
             </>
           }
         />
+        <Route
+          path="/admin/crud"
+          element={
+            <>
+              <Navbar />
+              {token ? <BookCrud /> : <HomePage />}
+              <Footer />
+            </>
+          }
+        />
+
         <Route
           path="*"
           element={
