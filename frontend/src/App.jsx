@@ -1,7 +1,7 @@
 // App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 import HomePage from "./components/Homepage";
 import Content from "./components/Profile";
 import BookCrud from "./components/BookCrud";
